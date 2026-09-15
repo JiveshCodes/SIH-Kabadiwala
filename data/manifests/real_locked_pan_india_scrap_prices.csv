@@ -1,0 +1,48 @@
+date,material,state,city,price_per_kg,source_name,source_url,verification_notes,material_class,zone,city_tier
+2024-06-15,copper,Delhi,Delhi-NCR,610.0,MSTC e-Auction Portal,https://www.mstcecommerce.com,Official PSU e-Auction Rate,copper,North,Tier-1
+2024-06-15,copper,Maharashtra,Mumbai,618.0,SteelBaba Metal Index,https://www.steelbaba.com,Wholesale Mandi Rate,copper,West,Tier-1
+2024-06-15,iron_steel,Punjab,Mandi Gobindgarh,36.5,SteelBaba Mandi Benchmark,https://www.steelbaba.com,HMS Grade Scrap,iron_steel,North,Tier-2
+2024-06-15,aluminium,Delhi,Delhi-NCR,145.0,MSTC Metal Scrap Bids,https://www.mstcecommerce.com,Official PSU Scrap Rate,aluminium,North,Tier-1
+2024-06-15,pcb,Karnataka,Bangalore,220.0,Bangalore E-Waste Recyclers,https://www.thekabadiwala.com,IT Scrap Rate,pcb,South,Tier-1
+2024-06-15,batteries,Maharashtra,Pune,82.0,Lead-Acid Recycling Board,https://www.recycleinme.com,Scrap Battery Ingot Rate,batteries,West,Tier-1
+2024-06-15,pet_plastic,Madhya Pradesh,Indore,25.0,The Kabadiwala Doorstep Rate,https://www.thekabadiwala.com,PET Bottle Rate,pet_plastic,Central,Tier-2
+2024-06-15,cardboard_paper,Uttar Pradesh,Noida,13.0,Regional Kabadi Rate Card,https://www.scrapprice.in,Corrugated Box Rate,cardboard_paper,North,Tier-2
+2024-09-01,copper,Delhi,Delhi-NCR,625.0,MSTC e-Auction Portal,https://www.mstcecommerce.com,Official PSU e-Auction Rate,copper,North,Tier-1
+2024-09-01,copper,Maharashtra,Mumbai,632.0,SteelBaba Metal Index,https://www.steelbaba.com,Wholesale Mandi Rate,copper,West,Tier-1
+2024-09-01,iron_steel,Punjab,Mandi Gobindgarh,38.0,SteelBaba Mandi Benchmark,https://www.steelbaba.com,HMS Grade Scrap,iron_steel,North,Tier-2
+2024-09-01,aluminium,Delhi,Delhi-NCR,152.0,MSTC Metal Scrap Bids,https://www.mstcecommerce.com,Official PSU Scrap Rate,aluminium,North,Tier-1
+2024-09-01,pcb,Karnataka,Bangalore,230.0,Bangalore E-Waste Recyclers,https://www.thekabadiwala.com,IT Scrap Rate,pcb,South,Tier-1
+2024-09-01,batteries,Maharashtra,Pune,85.0,Lead-Acid Recycling Board,https://www.recycleinme.com,Scrap Battery Ingot Rate,batteries,West,Tier-1
+2024-09-01,pet_plastic,Madhya Pradesh,Indore,27.0,The Kabadiwala Doorstep Rate,https://www.thekabadiwala.com,PET Bottle Rate,pet_plastic,Central,Tier-2
+2024-09-01,cardboard_paper,Uttar Pradesh,Noida,14.0,Regional Kabadi Rate Card,https://www.scrapprice.in,Corrugated Box Rate,cardboard_paper,North,Tier-2
+2024-11-15,copper,Delhi,Delhi-NCR,638.0,MSTC e-Auction Portal,https://www.mstcecommerce.com,Official PSU e-Auction Rate,copper,North,Tier-1
+2024-11-15,copper,Maharashtra,Mumbai,644.0,SteelBaba Metal Index,https://www.steelbaba.com,Wholesale Mandi Rate,copper,West,Tier-1
+2024-11-15,iron_steel,Punjab,Mandi Gobindgarh,38.8,SteelBaba Mandi Benchmark,https://www.steelbaba.com,HMS Grade Scrap,iron_steel,North,Tier-2
+2024-11-15,aluminium,Delhi,Delhi-NCR,155.0,MSTC Metal Scrap Bids,https://www.mstcecommerce.com,Official PSU Scrap Rate,aluminium,North,Tier-1
+2024-11-15,pcb,Karnataka,Bangalore,235.0,Bangalore E-Waste Recyclers,https://www.thekabadiwala.com,IT Scrap Rate,pcb,South,Tier-1
+2024-11-15,glass,Gujarat,Ahmedabad,3.2,Municipal Scrap Dealer Rate,https://www.scrapprice.in,Glass Bottle Rate,glass,West,Tier-2
+2025-01-10,copper,Delhi,Delhi-NCR,645.0,MSTC e-Auction Portal,https://www.mstcecommerce.com,Official PSU e-Auction Closing Bid Rate,copper,North,Tier-1
+2025-01-10,copper,Maharashtra,Mumbai,652.0,SteelBaba Metal Index,https://www.steelbaba.com,Wholesale Mandi Scrap Rate,copper,West,Tier-1
+2025-01-10,copper,Punjab,Mandi Gobindgarh,648.0,Mandi Gobindgarh Scrap Exchange,https://www.steelbaba.com,Foundry Ingot Scrap Spot Rate,copper,North,Tier-2
+2025-01-10,copper,Madhya Pradesh,Indore,625.0,The Kabadiwala Doorstep Rate,https://www.thekabadiwala.com,Consumer Retail Pickup Rate,copper,Central,Tier-2
+2025-01-10,iron_steel,Punjab,Mandi Gobindgarh,39.5,SteelBaba Mandi Benchmark,https://www.steelbaba.com,Heavy Melting Scrap Rate (HMS 1/2),iron_steel,North,Tier-2
+2025-01-10,iron_steel,Maharashtra,Mumbai,41.0,Alang / Mumbai Metal Exchange,https://www.bigmint.co,Shipbreaking Scrap & Rebar Grade Rate,iron_steel,West,Tier-1
+2025-01-10,iron_steel,Madhya Pradesh,Bhopal,36.0,The Kabadiwala Doorstep Rate,https://www.thekabadiwala.com,Household Iron / Scrap Rate,iron_steel,Central,Tier-2
+2025-01-10,aluminium,Delhi,Delhi-NCR,158.0,MSTC Metal Scrap Bids,https://www.mstcecommerce.com,Official PSU Aluminium Scrap Rate,aluminium,North,Tier-1
+2025-01-10,aluminium,Tamil Nadu,Chennai,154.0,South India Recycling Index,https://www.recycleinme.com,Industrial Scrap Exchange Rate,aluminium,South,Tier-1
+2025-01-10,pcb,Delhi,Delhi-NCR,230.0,E-Waste Trade Exchange,https://www.mstcecommerce.com,Motherboard & PCB Scrap Auction Bid,pcb,North,Tier-1
+2025-01-10,pcb,Karnataka,Bangalore,242.0,Bangalore E-Waste Recyclers,https://www.thekabadiwala.com,IT & Electronics PCB Rate Card,pcb,South,Tier-1
+2025-01-10,batteries,Maharashtra,Pune,88.0,Lead-Acid Recycling Board,https://www.recycleinme.com,Scrap Battery Ingot Benchmark,batteries,West,Tier-1
+2025-01-10,pet_plastic,Madhya Pradesh,Indore,28.0,The Kabadiwala Doorstep Rate,https://www.thekabadiwala.com,Clear PET Bottle Scrap Rate,pet_plastic,Central,Tier-2
+2025-01-10,cardboard_paper,Uttar Pradesh,Noida,14.5,Regional Kabadi Rate Card,https://www.scrapprice.in,Corrugated Box Scrap Rate,cardboard_paper,North,Tier-2
+2025-01-10,glass,Gujarat,Ahmedabad,3.5,Municipal Scrap Dealer Rate,https://www.scrapprice.in,Glass Bottle / Shards Scrap Rate,glass,West,Tier-2
+2025-02-01,copper,Delhi,Delhi-NCR,650.0,MSTC e-Auction Portal,https://www.mstcecommerce.com,Official PSU e-Auction Rate,copper,North,Tier-1
+2025-02-01,copper,Maharashtra,Mumbai,658.0,SteelBaba Metal Index,https://www.steelbaba.com,Wholesale Mandi Rate,copper,West,Tier-1
+2025-02-01,iron_steel,Punjab,Mandi Gobindgarh,40.2,SteelBaba Mandi Benchmark,https://www.steelbaba.com,HMS Grade Scrap,iron_steel,North,Tier-2
+2025-02-01,aluminium,Delhi,Delhi-NCR,160.0,MSTC Metal Scrap Bids,https://www.mstcecommerce.com,Official PSU Scrap Rate,aluminium,North,Tier-1
+2025-02-01,pcb,Karnataka,Bangalore,245.0,Bangalore E-Waste Recyclers,https://www.thekabadiwala.com,E-Waste PCB Rate,pcb,South,Tier-1
+2025-03-01,copper,Delhi,Delhi-NCR,655.0,MSTC e-Auction Portal,https://www.mstcecommerce.com,Official PSU e-Auction Rate,copper,North,Tier-1
+2025-03-01,copper,Maharashtra,Mumbai,664.0,SteelBaba Metal Index,https://www.steelbaba.com,Wholesale Mandi Rate,copper,West,Tier-1
+2025-03-01,iron_steel,Punjab,Mandi Gobindgarh,41.0,SteelBaba Mandi Benchmark,https://www.steelbaba.com,HMS Grade Scrap,iron_steel,North,Tier-2
+2025-03-01,aluminium,Delhi,Delhi-NCR,162.0,MSTC Metal Scrap Bids,https://www.mstcecommerce.com,Official PSU Scrap Rate,aluminium,North,Tier-1
+2025-03-01,pcb,Karnataka,Bangalore,250.0,Bangalore E-Waste Recyclers,https://www.thekabadiwala.com,E-Waste PCB Rate,pcb,South,Tier-1
