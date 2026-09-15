@@ -16,3 +16,7 @@ tqdm
 roboflow
 pillow-avif-plugin
 streamlit
+fastapi
+uvicorn
+python-multipart
+flask
