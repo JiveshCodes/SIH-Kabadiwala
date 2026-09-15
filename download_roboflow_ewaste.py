@@ -1,7 +1,7 @@
 """
 download_roboflow_ewaste.py
 ===========================
-Downloads the Roboflow E-Waste & Cables dataset using the provided API key
+Downloads the Roboflow E-Waste & Cables dataset using an environment-provided API key
 and organizes it into the target 12-class scrap taxonomy.
 """
 
@@ -11,7 +11,7 @@ import json
 import shutil
 from pathlib import Path
 
-ROBOFLOW_API_KEY = "xS2ruiOM7CIP1wnChq6K"
+ROBOFLOW_API_KEY = os.environ.get("ROBOFLOW_API_KEY")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -26,6 +26,11 @@ def download_dataset():
     print(f"Target Directory: {ROBOFLOW_DIR}")
     print("=" * 70)
     
+    if not ROBOFLOW_API_KEY:
+        raise RuntimeError(
+            "ROBOFLOW_API_KEY is not set. Set it as an environment variable before downloading."
+        )
+
     try:
         from roboflow import Roboflow
     except ImportError:

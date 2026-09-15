@@ -3,7 +3,7 @@ update_notebook.py
 ==================
 Programmatically patches kabadiwala_colab_master_pipeline.ipynb in-place with:
 
-1. Roboflow API Key ('xS2ruiOM7CIP1wnChq6K') in Section 02C
+1. Zero-key TrashBox ingestion in Section 02C
 2. Extended CLASS_MAP with cables/wires/tv/monitor/screen aliases (Section 03)
 3. ROBOFLOW_DIR folder scanning added to manifest building (Section 03)
 4. Class-Weighted CrossEntropyLoss (Section 05 training loop)

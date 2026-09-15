@@ -1,0 +1,208 @@
+{
+  "version": "2.0",
+  "taxonomy_name": "Kabadiwala Indian Scrap & Recyclables Taxonomy",
+  "num_classes": 16,
+  "super_categories": [
+    "e_waste",
+    "metals",
+    "paper_cardboard",
+    "plastics",
+    "glass_ceramics",
+    "wood"
+  ],
+  "classes": [
+    {
+      "id": 0,
+      "key": "aluminium",
+      "super_category": "metals",
+      "display_name": "Aluminium Scrap & Cans",
+      "hindi_name": "एल्युमिनियम",
+      "market_rate_per_unit": 165.00,
+      "unit": "kg",
+      "fair_price_min": 140.00,
+      "fair_price_max": 190.00,
+      "sources": ["TrashBox (metal)", "TrashNet (metal)", "TACO (Can, Aluminium foil)", "Indian Field Photos"]
+    },
+    {
+      "id": 1,
+      "key": "appliances",
+      "super_category": "e_waste",
+      "display_name": "Small Home Appliances",
+      "hindi_name": "घरेलू उपकरण (ओवन, हेयर ड्रायर, आदि)",
+      "market_rate_per_unit": 35.00,
+      "unit": "kg",
+      "fair_price_min": 25.00,
+      "fair_price_max": 45.00,
+      "sources": ["TrashBox (small appliances / appliances)", "Balanced E-Waste Dataset", "Indian Field Photos"]
+    },
+    {
+      "id": 2,
+      "key": "batteries",
+      "super_category": "e_waste",
+      "display_name": "Batteries (Lead-Acid & Li-Ion)",
+      "hindi_name": "बैटरी",
+      "market_rate_per_unit": 85.00,
+      "unit": "kg",
+      "fair_price_min": 70.00,
+      "fair_price_max": 105.00,
+      "sources": ["TrashBox (battery)", "TACO (Battery)", "Balanced E-Waste Dataset"]
+    },
+    {
+      "id": 3,
+      "key": "cables_wires",
+      "super_category": "e_waste",
+      "display_name": "Copper Cables, Cords & Wires",
+      "hindi_name": "बिजली के तार और केबल",
+      "market_rate_per_unit": 220.00,
+      "unit": "kg",
+      "fair_price_min": 180.00,
+      "fair_price_max": 260.00,
+      "sources": ["TrashBox (electrical cables)", "Cords/Cables Dataset", "Indian Field Photos"]
+    },
+    {
+      "id": 4,
+      "key": "cardboard",
+      "super_category": "paper_cardboard",
+      "display_name": "Corrugated Cardboard (Dafti/Carton)",
+      "hindi_name": "दफ़्ती / गत्ता",
+      "market_rate_per_unit": 18.50,
+      "unit": "kg",
+      "fair_price_min": 14.00,
+      "fair_price_max": 22.00,
+      "sources": ["TrashBox (cardboard)", "TrashNet (cardboard)", "RealWaste (cardboard)"]
+    },
+    {
+      "id": 5,
+      "key": "copper",
+      "super_category": "metals",
+      "display_name": "Pure Copper Scrap & Coils (Taamba)",
+      "hindi_name": "तांबा",
+      "market_rate_per_unit": 685.00,
+      "unit": "kg",
+      "fair_price_min": 620.00,
+      "fair_price_max": 740.00,
+      "sources": ["Indian Field Photos", "Scrap Metal Dataset", "BigMint Spot Prices"]
+    },
+    {
+      "id": 6,
+      "key": "glass_mirror",
+      "super_category": "glass_ceramics",
+      "display_name": "Glass Bottles, Jars & Mirrors",
+      "hindi_name": "कांच की बोतल / शीशा",
+      "market_rate_per_unit": 4.50,
+      "unit": "kg",
+      "fair_price_min": 3.00,
+      "fair_price_max": 6.00,
+      "sources": ["TrashBox (glass)", "TrashNet (glass)", "RealWaste (glass)"]
+    },
+    {
+      "id": 7,
+      "key": "iron_steel",
+      "super_category": "metals",
+      "display_name": "Ferrous Scrap Metal & Steel (Loha)",
+      "hindi_name": "लोहा / स्टील",
+      "market_rate_per_unit": 34.00,
+      "unit": "kg",
+      "fair_price_min": 28.00,
+      "fair_price_max": 40.00,
+      "sources": ["TrashBox (metal)", "TrashNet (metal)", "MSTC Auction Records"]
+    },
+    {
+      "id": 8,
+      "key": "laptops_computers",
+      "super_category": "e_waste",
+      "display_name": "Laptops & Computer Towers",
+      "hindi_name": "लैपटॉप और कंप्यूटर स्क्रैप",
+      "market_rate_per_unit": 450.00,
+      "unit": "kg",
+      "fair_price_min": 350.00,
+      "fair_price_max": 600.00,
+      "sources": ["TrashBox (laptops)", "Balanced E-Waste Dataset"]
+    },
+    {
+      "id": 9,
+      "key": "mixed_plastic",
+      "super_category": "plastics",
+      "display_name": "Mixed Hard Plastics (Buckets/Crates)",
+      "hindi_name": "कड़ा प्लास्टिक (बाल्टी, मग)",
+      "market_rate_per_unit": 24.00,
+      "unit": "kg",
+      "fair_price_min": 18.00,
+      "fair_price_max": 30.00,
+      "sources": ["TrashBox (plastic)", "TrashNet (plastic)", "RealWaste (plastic)"]
+    },
+    {
+      "id": 10,
+      "key": "mobile_tablets",
+      "super_category": "e_waste",
+      "display_name": "Smartphones & Mobile Tablets",
+      "hindi_name": "स्मार्टफोन और टैबलेट स्क्रैप",
+      "market_rate_per_unit": 500.00,
+      "unit": "kg",
+      "fair_price_min": 380.00,
+      "fair_price_max": 650.00,
+      "sources": ["TrashBox (smartphones)", "Balanced E-Waste Dataset"]
+    },
+    {
+      "id": 11,
+      "key": "newspaper_paper",
+      "super_category": "paper_cardboard",
+      "display_name": "Newspaper (Raddi) & Office Paper",
+      "hindi_name": "अख़बार रद्दी और कागज़",
+      "market_rate_per_unit": 15.00,
+      "unit": "kg",
+      "fair_price_min": 12.00,
+      "fair_price_max": 18.00,
+      "sources": ["TrashBox (paper)", "TrashNet (paper)", "Indian Field Photos"]
+    },
+    {
+      "id": 12,
+      "key": "pcb_chips",
+      "super_category": "e_waste",
+      "display_name": "Printed Circuit Boards (PCB) & Chips",
+      "hindi_name": "सर्किट बोर्ड और इलेक्ट्रॉनिक चिप्स",
+      "market_rate_per_unit": 350.00,
+      "unit": "kg",
+      "fair_price_min": 280.00,
+      "fair_price_max": 450.00,
+      "sources": ["TrashBox (electronic chips)", "DeepPCB", "Balanced E-Waste Dataset"]
+    },
+    {
+      "id": 13,
+      "key": "pet_plastic",
+      "super_category": "plastics",
+      "display_name": "PET Beverage Bottles",
+      "hindi_name": "पानी की बोतलें (PET)",
+      "market_rate_per_unit": 28.50,
+      "unit": "kg",
+      "fair_price_min": 22.00,
+      "fair_price_max": 35.00,
+      "sources": ["TrashBox (plastic)", "TACO (Bottle)", "RealWaste (plastics)"]
+    },
+    {
+      "id": 14,
+      "key": "tv_monitors_displays",
+      "super_category": "e_waste",
+      "display_name": "TV Screens & Computer Monitors",
+      "hindi_name": "टीवी और कंप्यूटर मॉनिटर",
+      "market_rate_per_unit": 120.00,
+      "unit": "kg",
+      "fair_price_min": 90.00,
+      "fair_price_max": 150.00,
+      "sources": ["TrashBox (appliances)", "Balanced E-Waste Dataset", "Indian Field Photos"]
+    },
+    {
+      "id": 15,
+      "key": "wood",
+      "super_category": "wood",
+      "display_name": "Wood Scrap & Timber Planks",
+      "hindi_name": "लकड़ी का स्क्रैप / तख्ते",
+      "market_rate_per_unit": 6.00,
+      "unit": "kg",
+      "fair_price_min": 4.00,
+      "fair_price_max": 8.00,
+      "sources": ["RealWaste (vegetation/wood)", "Indian Field Photos"]
+    }
+  ]
+}
+

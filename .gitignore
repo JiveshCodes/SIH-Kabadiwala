@@ -1,0 +1,27 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Virtual environments & IDE
+.env
+.venv/
+venv/
+.vscode/
+.idea/
+
+# Raw dataset downloads & large image dumps (keep models & schemas tracked!)
+data/raw/
+logs/
+splits/
+
+# Duplicate copies
+* (1).*
+*(1)*
+
+# Ensure models are tracked (under GitHub 100MB limit)
+!models/*.pt
+!models/*.onnx
+!models/*.joblib
+!models/*.json

@@ -1,0 +1,36 @@
+{
+  "model_type": "RandomForestRegressor",
+  "target": "price_per_kg",
+  "feature_columns": [
+    "material",
+    "state",
+    "city",
+    "year",
+    "month"
+  ],
+  "categorical_features": [
+    "material",
+    "state",
+    "city"
+  ],
+  "numeric_features": [
+    "year",
+    "month"
+  ],
+  "trained_materials": [
+    "aluminium",
+    "batteries",
+    "cardboard_paper",
+    "copper",
+    "glass",
+    "iron_steel",
+    "pcb",
+    "pet_plastic"
+  ],
+  "training_rows": 37,
+  "test_rows": 10,
+  "mae_inr_per_kg": 10.88,
+  "rmse_inr_per_kg": 12.16,
+  "mape_percent": 4.31,
+  "r2_score": 0.9978
+}

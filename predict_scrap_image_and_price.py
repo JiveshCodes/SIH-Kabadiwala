@@ -1,18 +1,16 @@
 """
 ======================================================================
-KABADIWALA ML PIPELINE: END-TO-END IMAGE + PRICE PREDICTOR
+KABADIWALA ML PIPELINE: END-TO-END IMAGE + PRICE PREDICTOR (v2.0)
 ======================================================================
 Combines:
-  1. Vision Model 1 (DINOv2 / MobileNetV3 ONNX) -> Material Classification
-  2. Price Model 2  (Linear / XGBoost + Z-Score)  -> Pan-India Price Intelligence
+  1. Vision Model 1 (DINOv2 / MobileNetV3) -> 16-Class Scrap Material Classification
+  2. Price Model 2  (Pan-India Scrap Intelligence) -> Geo-Adjusted Valuation & Anomaly Detection
 
-BUG FIXES APPLIED:
-  - joblib import kept but no longer crashes if model file is absent
-  - predict_image_and_price: confidence param default=1.0 (backwards compatible)
-  - predict_from_probabilities: validates that probs sum > 0 before normalizing
-  - anomaly_status is now only overwritten if a quote is passed (was already ok)
-  - json.dumps used in demo — ₹ symbol is non-ASCII; ensure_ascii=False added
-  - CLASSES and PRICE_BENCHMARKS kept in sync (all 12 classes covered)
+Features:
+  - 16 Fine-Grained Classes across 6 Super-Categories (E-Waste, Metals, Paper/Cardboard, Plastics, Glass, Wood)
+  - Alias mapper for backwards compatibility with legacy labels
+  - Multi-city adjustment factors
+  - Z-score / Threshold fair-market anomaly validation
 """
 
 import os
@@ -26,76 +24,157 @@ try:
 except ImportError:
     HAS_JOBLIB = False
 
-# Target Taxonomy — 12 classes
+# 16 Canonical Classes
 CLASSES = [
-    'pcb', 'cables_wires', 'batteries', 'mobile_laptops', 'displays',
-    'motors_magnets', 'copper', 'aluminium', 'iron_steel', 'pet_plastic',
-    'mixed_plastic', 'cardboard_paper', 'glass'
+    'aluminium',
+    'appliances',
+    'batteries',
+    'cables_wires',
+    'cardboard',
+    'copper',
+    'glass_mirror',
+    'iron_steel',
+    'laptops_computers',
+    'mixed_plastic',
+    'mobile_tablets',
+    'newspaper_paper',
+    'pcb_chips',
+    'pet_plastic',
+    'tv_monitors_displays',
+    'wood'
 ]
 
-# Baseline price reference table (per kg in INR) — Pan-India benchmark
-# All 13 CLASSES must be present here. Default fallback used if key is missing.
-PRICE_BENCHMARKS = {
-    'cardboard_paper': {'avg_price': 18.50,  'unit': 'kg', 'min': 14.00,  'max': 22.00},
-    'glass':           {'avg_price': 4.50,   'unit': 'kg', 'min': 3.00,   'max': 6.00},
-    'iron_steel':      {'avg_price': 34.00,  'unit': 'kg', 'min': 28.00,  'max': 40.00},
-    'mixed_plastic':   {'avg_price': 24.00,  'unit': 'kg', 'min': 18.00,  'max': 30.00},
-    'pet_plastic':     {'avg_price': 28.50,  'unit': 'kg', 'min': 22.00,  'max': 35.00},
-    'copper':          {'avg_price': 685.00, 'unit': 'kg', 'min': 620.00, 'max': 740.00},
-    'aluminium':       {'avg_price': 165.00, 'unit': 'kg', 'min': 140.00, 'max': 190.00},
-    'batteries':       {'avg_price': 85.00,  'unit': 'kg', 'min': 70.00,  'max': 105.00},
-    'cables_wires':    {'avg_price': 220.00, 'unit': 'kg', 'min': 180.00, 'max': 260.00},
-    'pcb':             {'avg_price': 350.00, 'unit': 'kg', 'min': 280.00, 'max': 450.00},
-    'mobile_laptops':  {'avg_price': 450.00, 'unit': 'kg', 'min': 350.00, 'max': 600.00},
-    'displays':        {'avg_price': 120.00, 'unit': 'kg', 'min': 90.00,  'max': 150.00},
-    'motors_magnets':  {'avg_price': 48.00,  'unit': 'kg', 'min': 38.00,  'max': 65.00},
+# Aliases mapping older / variant names to canonical 16 classes
+CLASS_ALIASES = {
+    'pcb': 'pcb_chips',
+    'circuit_board': 'pcb_chips',
+    'electronic_chips': 'pcb_chips',
+    'chips': 'pcb_chips',
+    'mobile_laptops': 'mobile_tablets',
+    'mobile': 'mobile_tablets',
+    'laptop': 'laptops_computers',
+    'laptops': 'laptops_computers',
+    'displays': 'tv_monitors_displays',
+    'tv': 'tv_monitors_displays',
+    'monitor': 'tv_monitors_displays',
+    'screen': 'tv_monitors_displays',
+    'glass': 'glass_mirror',
+    'mirror': 'glass_mirror',
+    'paper': 'newspaper_paper',
+    'newspaper': 'newspaper_paper',
+    'cardboard_paper': 'cardboard',
+    'metal': 'iron_steel',
+    'steel': 'iron_steel',
+    'iron': 'iron_steel',
+    'copper_wire': 'copper',
+    'cables': 'cables_wires',
+    'wires': 'cables_wires',
+    'wire': 'cables_wires',
+    'cord': 'cables_wires',
+    'plastic': 'mixed_plastic',
+    'battery': 'batteries',
+    'motors_magnets': 'appliances',
 }
 
-# Verify all 12 classes are covered in PRICE_BENCHMARKS
+# Super-category mapping
+SUPER_CATEGORIES = {
+    'aluminium': 'Metals',
+    'appliances': 'E-Waste',
+    'batteries': 'E-Waste',
+    'cables_wires': 'E-Waste',
+    'cardboard': 'Paper & Cardboard',
+    'copper': 'Metals',
+    'glass_mirror': 'Glass & Ceramics',
+    'iron_steel': 'Metals',
+    'laptops_computers': 'E-Waste',
+    'mixed_plastic': 'Plastics',
+    'mobile_tablets': 'E-Waste',
+    'newspaper_paper': 'Paper & Cardboard',
+    'pcb_chips': 'E-Waste',
+    'pet_plastic': 'Plastics',
+    'tv_monitors_displays': 'E-Waste',
+    'wood': 'Wood & Timber'
+}
+
+# Baseline price reference table (per kg in INR) — Pan-India benchmark
+PRICE_BENCHMARKS = {
+    'aluminium':            {'avg_price': 165.00, 'unit': 'kg', 'min': 140.00, 'max': 190.00},
+    'appliances':           {'avg_price': 35.00,  'unit': 'kg', 'min': 25.00,  'max': 45.00},
+    'batteries':            {'avg_price': 85.00,  'unit': 'kg', 'min': 70.00,  'max': 105.00},
+    'cables_wires':         {'avg_price': 220.00, 'unit': 'kg', 'min': 180.00, 'max': 260.00},
+    'cardboard':            {'avg_price': 18.50,  'unit': 'kg', 'min': 14.00,  'max': 22.00},
+    'copper':               {'avg_price': 685.00, 'unit': 'kg', 'min': 620.00, 'max': 740.00},
+    'glass_mirror':         {'avg_price': 4.50,   'unit': 'kg', 'min': 3.00,   'max': 6.00},
+    'iron_steel':           {'avg_price': 34.00,  'unit': 'kg', 'min': 28.00,  'max': 40.00},
+    'laptops_computers':    {'avg_price': 450.00, 'unit': 'kg', 'min': 350.00, 'max': 600.00},
+    'mixed_plastic':        {'avg_price': 24.00,  'unit': 'kg', 'min': 18.00,  'max': 30.00},
+    'mobile_tablets':       {'avg_price': 500.00, 'unit': 'kg', 'min': 380.00, 'max': 650.00},
+    'newspaper_paper':      {'avg_price': 15.00,  'unit': 'kg', 'min': 12.00,  'max': 18.00},
+    'pcb_chips':            {'avg_price': 350.00, 'unit': 'kg', 'min': 280.00, 'max': 450.00},
+    'pet_plastic':          {'avg_price': 28.50,  'unit': 'kg', 'min': 22.00,  'max': 35.00},
+    'tv_monitors_displays': {'avg_price': 120.00, 'unit': 'kg', 'min': 90.00,  'max': 150.00},
+    'wood':                 {'avg_price': 6.00,   'unit': 'kg', 'min': 4.00,   'max': 8.00},
+}
+
+# Verify all 16 classes are covered
 _missing = [c for c in CLASSES if c not in PRICE_BENCHMARKS]
 if _missing:
     raise ValueError(f"PRICE_BENCHMARKS missing entries for: {_missing}")
 
-# City adjustment multipliers (extend as needed)
+# City adjustment multipliers
 CITY_MULTIPLIERS = {
-    'Delhi': 1.0, 'Mumbai': 1.05, 'Bangalore': 1.02,
-    'Mandi Gobindgarh': 0.98, 'Bhopal': 0.95, 'Chennai': 1.01,
-    'Hyderabad': 1.01, 'Pune': 1.03, 'Ahmedabad': 0.97,
-    'Kolkata': 0.99, 'Indore': 0.96, 'Noida': 1.0,
+    'Delhi': 1.0,
+    'Mumbai': 1.05,
+    'Bangalore': 1.02,
+    'Mandi Gobindgarh': 0.98,
+    'Bhopal': 0.95,
+    'Chennai': 1.01,
+    'Hyderabad': 1.01,
+    'Pune': 1.03,
+    'Ahmedabad': 0.97,
+    'Kolkata': 0.99,
+    'Indore': 0.96,
+    'Noida': 1.0,
+    'Jaipur': 0.97,
+    'Surat': 0.98
 }
 
-# Low-confidence threshold — below this, flag for manual re-scan
 CONFIDENCE_THRESHOLD = 0.65
+
+
+def resolve_canonical_class(name):
+    """Maps aliases or raw strings to canonical class keys."""
+    if not name:
+        return 'mixed_plastic'
+    raw = str(name).strip().lower()
+    if raw in PRICE_BENCHMARKS:
+        return raw
+    if raw in CLASS_ALIASES:
+        return CLASS_ALIASES[raw]
+    # Fuzzy fallback
+    for k in PRICE_BENCHMARKS:
+        if k in raw or raw in k:
+            return k
+    return 'mixed_plastic'
 
 
 def predict_image_and_price(material_name, city="Delhi", user_offered_price=None, confidence=1.0):
     """
     End-to-end prediction from vision detection -> price valuation.
-
-    Args:
-        material_name     : Detected scrap class (must be one of CLASSES)
-        city              : City string for geo-adjusted pricing
-        user_offered_price: Optional float — the price a dealer quoted the user
-        confidence        : Float in [0, 1] — model's softmax confidence
-
-    Returns:
-        dict with detection result, price estimate, anomaly status, and warnings
     """
-    # Validate material
-    if material_name not in PRICE_BENCHMARKS:
-        material_name = 'mixed_plastic'  # safe fallback
-
+    material_name = resolve_canonical_class(material_name)
     bench = PRICE_BENCHMARKS[material_name]
-    mult  = CITY_MULTIPLIERS.get(city, 1.0)
+    mult = CITY_MULTIPLIERS.get(city, 1.0)
 
     estimated_rate = round(bench['avg_price'] * mult, 2)
-    min_fair       = round(bench['min'] * mult, 2)
-    max_fair       = round(bench['max'] * mult, 2)
+    min_fair = round(bench['min'] * mult, 2)
+    max_fair = round(bench['max'] * mult, 2)
 
     is_low_confidence = confidence < CONFIDENCE_THRESHOLD
 
     result = {
         'detected_material': material_name,
+        'super_category':    SUPER_CATEGORIES.get(material_name, 'Recyclables'),
         'confidence_score':  f"{confidence * 100:.2f}%",
         'confidence_level':  'HIGH' if not is_low_confidence else 'LOW — RE-SCAN RECOMMENDED',
         'city':              city,
@@ -138,14 +217,6 @@ def predict_from_probabilities(probs_dict, city="Delhi", user_offered_price=None
     """
     Takes a dict of {class_name: probability} and returns the top prediction
     with Top-3 candidates and confidence-gated price result.
-
-    Args:
-        probs_dict        : e.g. {'mixed_plastic': 0.399, 'displays': 0.35, ...}
-        city              : City for geo price adjustment
-        user_offered_price: Optional dealer quote for anomaly check
-
-    Returns:
-        Full result dict with 'top_3_candidates' list
     """
     if not probs_dict:
         raise ValueError("probs_dict cannot be empty")
@@ -154,8 +225,7 @@ def predict_from_probabilities(probs_dict, city="Delhi", user_offered_price=None
     if total <= 0:
         raise ValueError("probs_dict values must sum to > 0")
 
-    # Normalize so probabilities sum to 1
-    normalized = {k: v / total for k, v in probs_dict.items()}
+    normalized = {resolve_canonical_class(k): v / total for k, v in probs_dict.items()}
 
     sorted_probs = sorted(normalized.items(), key=lambda x: x[1], reverse=True)
     top_material, top_conf = sorted_probs[0]
@@ -178,7 +248,6 @@ def predict_from_probabilities(probs_dict, city="Delhi", user_offered_price=None
 # ---------------------------------------------------------------------------
 if __name__ == '__main__':
     sep = "=" * 70
-
     print(sep)
     print("DEMO 1: cables_wires — High Confidence (96.5%) — Delhi")
     print(sep)
@@ -186,20 +255,19 @@ if __name__ == '__main__':
     print(json.dumps(r1, indent=2, ensure_ascii=False))
 
     print(f"\n{sep}")
-    print("DEMO 2: CRT TV — Low Confidence (39.9%) — Mumbai (via probabilities)")
+    print("DEMO 2: appliances (hair dryer / oven) — Mumbai")
     print(sep)
-    mock_probs = {'mixed_plastic': 0.399, 'displays': 0.350, 'pcb': 0.150, 'iron_steel': 0.101}
-    r2 = predict_from_probabilities(mock_probs, city='Mumbai', user_offered_price=24.0)
+    r2 = predict_image_and_price('appliances', city='Mumbai', user_offered_price=30.0, confidence=0.92)
     print(json.dumps(r2, indent=2, ensure_ascii=False))
 
     print(f"\n{sep}")
-    print("DEMO 3: copper — Normal price check — Bangalore")
+    print("DEMO 3: copper — High Value Scrap — Bangalore")
     print(sep)
     r3 = predict_image_and_price('copper', city='Bangalore', user_offered_price=710.0, confidence=0.91)
     print(json.dumps(r3, indent=2, ensure_ascii=False))
 
     print(f"\n{sep}")
-    print("DEMO 4: Predatory low-ball quote on pcb")
+    print("DEMO 4: wood — Low Value Scrap — Jaipur")
     print(sep)
-    r4 = predict_image_and_price('pcb', city='Delhi', user_offered_price=50.0, confidence=0.88)
+    r4 = predict_image_and_price('wood', city='Jaipur', user_offered_price=5.0, confidence=0.88)
     print(json.dumps(r4, indent=2, ensure_ascii=False))
